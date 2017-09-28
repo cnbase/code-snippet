@@ -8,6 +8,25 @@
  */
 
 /**
+ * 输出App所需格式
+ * @param int $status 状态码
+ * @param string $msg 描述
+ * @param array $data 数据
+ * @param string $type 返回数据类型,默认json格式
+ */
+function appReturn($status = 0,$msg = '',$data = [],$type = 'json'){
+    $result = array(
+        'status'    =>  $status,
+        'msg'       =>  $msg,
+        'data'      =>  $data
+    );
+    if ($type == 'json'){
+        header('Content-Type:application/json;charset=utf-8');
+        exit(json_encode($result,0));
+    }
+}
+
+/**
  * 计算两组经纬度坐标 之间的距离
  * params ：lat1 纬度1； lng1 经度1； lat2 纬度2； lng2 经度2； len_type （1:m or 2:km);
  * return m or km
