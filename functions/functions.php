@@ -165,13 +165,12 @@ function createNo(){
  * CURL post提交
  * @param mixed $data 提交数据，数组或url_encode
  * @param string $url 提交地址
- * @param bool $saveCookie 是否存储和携带cookie访问
+ * @param string $cookie_file cookie文件路径，是否存储和携带cookie访问 $cookie_file = './cookie.txt';
  * @param bool $useCert ssl证书
  * @param int $second 超时时间
- * @return array|bool false:curl出错;['code':200,'content':内容]
+ * @return array ['status':1,'code':200,'content':内容]
  */
-function postCurl($data, $url ,$saveCookie = false,$useCert = false, $second = 30){
-    $cookie_file = './cookie.txt';
+function postCurl($data, $url ,$cookie_file = '',$useCert = false, $second = 30){
     $ch = curl_init();
     //设置超时
     curl_setopt($ch, CURLOPT_TIMEOUT, $second);
@@ -182,7 +181,7 @@ function postCurl($data, $url ,$saveCookie = false,$useCert = false, $second = 3
     curl_setopt($ch, CURLOPT_HEADER, FALSE);
     //要求结果为字符串且输出到屏幕上
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-    if ($saveCookie){
+    if ($cookie_file){
         curl_setopt($ch, CURLOPT_COOKIEJAR,  $cookie_file); //存储cookies
         curl_setopt ($ch, CURLOPT_COOKIEFILE, $cookie_file);//携带cookies
     }
@@ -203,16 +202,21 @@ function postCurl($data, $url ,$saveCookie = false,$useCert = false, $second = 3
     $content = curl_exec($ch);
     $httpCode = curl_getinfo($ch,CURLINFO_HTTP_CODE);
     //返回结果
+    $result = array(
+        'status'    =>  0,
+        'code'      =>  0,
+        'content'   =>  ''
+    );
     if($content === false){
-        $error = curl_errno($ch);
+        $result['code'] = curl_errno($ch);
+        $result['content'] = curl_error($ch);
         curl_close($ch);
-        return false;
+        return $result;
     } else {
         curl_close($ch);
-        $result = array(
-            'code'  =>  $httpCode,
-            'content'  =>  $content
-        );
+        $result['status'] = 1;
+        $result['code'] = $httpCode;
+        $result['content'] = $content;
         return $result;
     }
 }
