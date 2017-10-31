@@ -12,13 +12,15 @@
  * @param int $status 状态码
  * @param string $msg 描述
  * @param array $data 数据
+ * @param string $url 跳转URL
  * @param string $type 返回数据类型,默认json格式
  */
-function appReturn($status = 0,$msg = '',$data = [],$type = 'json'){
+function appReturn($status = 0,$msg = '',$data = [],$url = '',$type = 'json'){
     $result = array(
         'status'    =>  $status,
         'msg'       =>  $msg,
-        'data'      =>  $data
+        'data'      =>  $data,
+        'url'       =>  $url
     );
     if ($type == 'json'){
         header('Content-Type:application/json;charset=utf-8');
@@ -218,5 +220,26 @@ function postCurl($data, $url ,$cookie_file = '',$useCert = false, $second = 30)
         $result['code'] = $httpCode;
         $result['content'] = $content;
         return $result;
+    }
+}
+
+/**
+ * 判断工作日指定时间段
+ * @param int $start_hour 24h制
+ * @param int $end_hour 24h制
+ * @return bool
+ */
+function checkWorkHour($start_hour = 0,$end_hour = 24){
+    $now_time = time();
+    // 获取星期几
+    $day = date('w',$now_time);
+    $hour = date('H',$now_time);
+    if ($day > 5){
+        return false;
+    }
+    if ($hour >= $start_hour && $hour <= $end_hour){
+        return true;
+    } else {
+        return false;
     }
 }
