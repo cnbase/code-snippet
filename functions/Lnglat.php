@@ -33,3 +33,34 @@ function calcScope($lat, $lng, $radius) {
     );
     return $scope;
 }
+
+/**
+ * 根据经纬度获取之间的距离
+ * @param string $ThisMap "lng,lat"
+ * @param string $TargetMap "lng,lat"
+ * @param int $precision
+ * @return float
+ */
+function MapAway($ThisMap, $TargetMap,$precision = 1){
+    //当前地址坐标
+    $ThisMap = explode(',',$ThisMap);
+    list($ThisMap['x'],$ThisMap['y']) = $ThisMap;
+
+    //目标地址坐标
+    $TargetMap = explode(',',$TargetMap);
+    list($TargetMap['x'],$TargetMap['y']) = $TargetMap;
+
+    $rad = 3.1415926535898 / 180.0;
+
+    $EARTH_RADIUS = 6378.137;
+    $radLat1 = $ThisMap['y']*$rad;
+    $radLat2 = $TargetMap['y']*$rad;
+    $a = $radLat1 - $radLat2;
+    $b = $ThisMap['x']*$rad - $TargetMap['x']*$rad;
+    $s = 2 * asin(sqrt(pow(sin($a/2),2) +
+            cos($radLat1)*cos($radLat2)*pow(sin($b/2),2)));
+    $s = $s *$EARTH_RADIUS;
+    $Km = round($s * 10000 / 10000,$precision);
+
+    return $Km;
+}
