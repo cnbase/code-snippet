@@ -271,3 +271,35 @@ function checkWorkHour($start_hour = 0,$end_hour = 24){
         return false;
     }
 }
+
+/**
+ * 判断信用卡过期时间合法性
+ * @param string $expire_date 1711 两位年+两位月
+ * @return bool
+ */
+function checkCardExpireDate($expire_date = ''){
+    if (!$expire_date){
+        return false;
+    }
+    $len = strlen($expire_date);
+    if ($len != 4){
+        return false;
+    }
+    $year = substr($expire_date,0,2);
+    $month = substr($expire_date,2);
+    // 当前年份
+    $now_year = date('Y');
+    $year = substr($now_year,0,2).$year;
+    if ($year < $now_year){
+        // 已过期
+        return false;
+    }
+    if (intval($year) == intval($now_year) && $month < date('m')){
+        // 已过期
+        return false;
+    }
+    if ($month < 1 || $month > 12){
+        return false;
+    }
+    return true;
+}
