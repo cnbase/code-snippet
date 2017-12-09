@@ -303,3 +303,18 @@ function checkCardExpireDate($expire_date = ''){
     }
     return true;
 }
+
+/**
+ * 生成全局唯一码
+ * @return string
+ */
+function getGuid() {
+    $unique = strtoupper(md5(uniqid(mt_rand(), true)));
+    $hyphen = chr(45);// "-"
+    $uuid = substr($unique, 0, 8).$hyphen
+        .substr($unique, 8, 4).$hyphen
+        .substr($unique,12, 4).$hyphen
+        .substr($unique,16, 4).$hyphen
+        .substr($unique,20,12);
+    return $uuid;
+}
