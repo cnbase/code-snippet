@@ -318,3 +318,17 @@ function getGuid() {
         .substr($unique,20,12);
     return $uuid;
 }
+
+/**
+ * 检测传入值是否符合PHP命名规范
+ * 第一位非数字，后面可英文/数字/_
+ * @param string $var_name
+ * @return bool
+ */
+function check_php_var_name($var_name = ''){
+    if (preg_match('/^[a-zA-Z_][a-zA-Z_0-9]*$/',$var_name)){
+        return true;
+    } else {
+        return false;
+    }
+}
