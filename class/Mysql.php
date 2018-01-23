@@ -45,6 +45,19 @@ class iMySql{
     }
 
     /**
+     * 获取最后插入ID
+     * @return mixed
+     */
+    public function getLastID(){
+        self::showConnectErr();
+        if (self::$drive == 'pdo'){
+            return self::$db->lastInsertId();
+        } else {
+            return self::$db->insert_id;
+        }
+    }
+
+    /**
      * 执行
      * @param $sql
      * @return bool
