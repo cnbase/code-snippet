@@ -372,3 +372,25 @@ function from62_to10($num) {
     }
     return $dec;
 }
+
+/**
+ * XSS过滤，输出内容过滤 From InitPHP框架 thx
+ * 1. 框架支持全局XSS过滤机制-全局开启将消耗PHP运行
+ * 2. 手动添加XSS过滤函数，在模板页面中直接调用
+ * 全局使用方法：InitPHP::output($string, $type = 'encode');
+ * @param string $string  需要过滤的字符串
+ * @param string $type    encode HTML处理 | decode 反处理
+ * @return string
+ */
+function output($string, $type = 'encode') {
+    $html = array("&", '"', "'", "<", ">", "%3C", "%3E");
+    $html_code = array("&amp;", "&quot;", "&#039;", "&lt;", "&gt;", "&lt;", "&gt;");
+    if ($type == 'encode') {
+        if (function_exists('htmlspecialchars')) return htmlspecialchars($string);
+        $str = str_replace($html, $html_code, $string);
+    } else {
+        if (function_exists('htmlspecialchars_decode')) return htmlspecialchars_decode($string);
+        $str = str_replace($html_code, $html, $string);
+    }
+    return $str;
+}
