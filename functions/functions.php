@@ -413,5 +413,11 @@ function outputHeaderCode($code = '404'){
             header('HTTP/1.1 500 Internal Server Error');
             header("status: 500 Internal Server Error");
             break;
+        case 'charset_utf8':
+            header("Content-Type:text/html; charset=utf-8");
+            break;
+        case 'charset_gb2312':
+            header("Content-Type:text/html; charset=gb2312");
+            break;
     }
 }
