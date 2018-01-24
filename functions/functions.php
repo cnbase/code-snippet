@@ -394,3 +394,24 @@ function output($string, $type = 'encode') {
     }
     return $str;
 }
+
+/**
+ * 输出状态码header头
+ * @param string $code
+ */
+function outputHeaderCode($code = '404'){
+    switch ($code){
+        case '404':
+            header('HTTP/1.1 404 Not Found');
+            header("status: 404 Not Found");
+            break;
+        case '405':
+            header('HTTP/1.1 405 Method not allowed');
+            header("status: 405 Method not allowed");
+            break;
+        case '500':
+            header('HTTP/1.1 500 Internal Server Error');
+            header("status: 500 Internal Server Error");
+            break;
+    }
+}
