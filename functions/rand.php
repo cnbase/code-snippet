@@ -36,3 +36,50 @@ function getGuid() {
         .substr($unique,20,12);
     return $uuid;
 }
+
+/**
+ * 生成总和固定且指定个数的随机数
+ * @param float $sum 固定总和
+ * @param int $num 指定随机次数
+ * @return array 返回的随机数组
+ */
+function randSplit($sum,$num){
+    $avg = $sum/$num;
+    $result = array();
+    $temp2 = 0;
+    $max = 1;
+    for ($i = 1;$i < $num;$i++){
+        if ($i % 2){
+            $temp = round($avg * (1 - mt_rand()/mt_getrandmax() * $max),2);
+            // 防止生成0的随机数
+            while (!$temp){
+                $temp = round($avg * (1 - mt_rand()/mt_getrandmax() * $max),2);
+            }
+            $temp2 += $temp;
+            $result[] = $temp;
+            $max = 1 - $max;
+        } else {
+            $temp = round($avg * (1 + mt_rand()/mt_getrandmax() * $max),2);
+            // 防止生成0的随机数
+            while (!$temp){
+                $temp = round($avg * (1 - mt_rand()/mt_getrandmax() * $max),2);
+            }
+            $temp2 += $temp;
+            $result[] = $temp;
+            $max = 1 - $max;
+        }
+    }
+    $result[] = ($sum - $temp2);
+    shuffle($result);
+    return $result;
+}
+
+/**
+ * 生成指定范围之间随机浮点数
+ * @param int $min 最小值，默认0
+ * @param int $max 最大值，默认1
+ * @return float|int 返回随机浮点数
+ */
+function randFloat($min=0, $max=1){
+    return $min + mt_rand()/mt_getrandmax() * ($max-$min);
+}
