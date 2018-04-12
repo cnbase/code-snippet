@@ -13,6 +13,15 @@ function createNo(){
     return $str{rand(0,25)}.time().rand(100,999);
 }
 
+// 生成随机邀请码，排除0oO
+function getCode($len = 6){
+    $letters = '123456789abcdefghijklmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ';
+    $ret = '';
+    for ($i = 0;$i < $len; ++$i)
+        $ret .= $letters{mt_rand(0,58)};
+    return $ret;
+}
+
 /**
  * 生成短信验证码
  * @param int $len 生成的长度
