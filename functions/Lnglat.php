@@ -10,7 +10,7 @@
  * 根据经纬度和半径计算出范围[最大/最小经纬度]
  * @param string $lat 纬度
  * @param String $lng 经度
- * @param float $radius 半径
+ * @param float $radius 半径 单位米
  * @return Array 范围数组
  */
 function calcScope($lat, $lng, $radius) {
