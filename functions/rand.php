@@ -129,3 +129,25 @@ function randSplitForRatio($sum,$num,$ratio = 1.0){
     }
     return $plan;
 }
+
+// 来自网络，生成邀请码
+function create_invite_code() {
+    $code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $rand = $code[rand(0,25)]
+        .strtoupper(dechex(date('m')))
+        .date('d')
+        .substr(time(),-5)
+        .substr(microtime(),2,5)
+        .sprintf('%02d',rand(0,99));
+    for(
+        $a = md5( $rand, true ),
+        $s = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+        $d = '',
+        $f = 0;
+        $f < 6;
+        $g = ord( $a[ $f ] ),
+        $d .= $s[ ( $g ^ ord( $a[ $f + 8 ] ) ) - $g & 0x1F ],
+        $f++
+    );
+    return $d;
+}
