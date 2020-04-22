@@ -151,3 +151,33 @@ function create_invite_code() {
     );
     return $d;
 }
+
+//十进制数转换成62进制数
+function from10_to62($num) {
+    $to = 62;
+    $dict = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $ret = '';
+    do {
+        $ret = $dict[bcmod($num, $to)] . $ret;
+        $num = bcdiv($num, $to);
+    } while ($num > 0);
+    return $ret;
+}
+/**
+ * 62进制数转换成十进制数
+ *
+ * @param string $num
+ * @return string
+ */
+function from62_to10($num) {
+    $from = 62;
+    $num = strval($num);
+    $dict = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $len = strlen($num);
+    $dec = 0;
+    for($i = 0; $i < $len; $i++) {
+        $pos = strpos($dict, $num[$i]);
+        $dec = bcadd(bcmul(bcpow($from, $len - $i - 1), $pos), $dec);
+    }
+    return $dec;
+}
