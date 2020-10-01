@@ -24,7 +24,7 @@ function appReturn($status = 0,$msg = '',$data = [],$url = '',$type = 'json'){
     );
     if ($type == 'json'){
         header('Content-Type:application/json;charset=utf-8');
-        exit(json_encode($result,0));
+        exit(json_encode($result,JSON_UNESCAPED_UNICODE));
     }
 }
 
