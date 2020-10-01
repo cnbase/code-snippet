@@ -28,6 +28,12 @@ function appReturn($status = 0,$msg = '',$data = [],$url = '',$type = 'json'){
     }
 }
 
+function appJson($code = 0,$msg = '',$data = []){
+    header('Content-type:application/json;charset=utf-8');
+    echo json_encode(['code'=>$code,'msg'=>$msg,'data'=>$data], JSON_UNESCAPED_UNICODE);
+    exit();
+}
+
 /**
  * 计算两组经纬度坐标 之间的距离
  * params ：lat1 纬度1； lng1 经度1； lat2 纬度2； lng2 经度2； len_type （1:m or 2:km);
